@@ -56,7 +56,7 @@ public class BulletinUploader
 		//Martus.addThirdPartyJarsToClasspath();
 	}
 
-	public void startLoading()
+	public void startLoading() throws Exception
 	{
 		try
 		{
@@ -87,37 +87,37 @@ public class BulletinUploader
 //		MartusLogger.log("tempDir is " + tempDir);
 //		zippedBulletins = new File[numBulletins];
 //		bulletinIds = new UniversalId[numBulletins];
-		try
-		{
 //			createZippedBulletins();
 //			loadBulletins();
 
-			verifyMartusServer();
-
-			uploadBulletins();
-		} 
-		catch (Exception e) 
-		{
-			MartusLogger.log("problem sending bulletins");
-			MartusLogger.logException(e);
-		}
+			if (verifyMartusServerViaMultipleAttempts())
+				uploadBulletins();
 //		DirectoryUtils.deleteEntireDirectoryTree(tempDir);
 	}
 
-	private void verifyMartusServer() throws Exception 
+	private boolean verifyMartusServerViaMultipleAttempts() throws Exception 
 	{
-		MartusLogger.log("Verifying server");
-		try 
+		final int NUMBER_OF_VERIFY_SERVER_ATTEMPTS = 5;
+		for (int index = 0; index <= NUMBER_OF_VERIFY_SERVER_ATTEMPTS; ++index)
 		{
-			while (!verifyServer()) 
+			try 
 			{
+				MartusLogger.log("Verifying server.  Verify count = " + index);
+				if (verifyServer())
+					return true;
+				
 				Thread.sleep(5 * 1000);
 			}
-		} 
-		catch (InterruptedException e) 
-		{
-			MartusLogger.logException(e);
+			catch (Exception e)
+			{
+				if (index < NUMBER_OF_VERIFY_SERVER_ATTEMPTS)
+					continue;
+
+				throw e;
+			}
 		}
+		
+		return false;
 	}
 	
 	//DO WE NEED THIS
@@ -189,14 +189,14 @@ public class BulletinUploader
 		{
 			MartusLogger.log("Martus Server is not available!");
 			MartusLogger.logException(e);
+			throw e;
 		}
 		catch (Exception e) 
 		{
 			MartusLogger.log("Couldn't verify server");
 			MartusLogger.logException(e);
+			throw e;
 		}
-		
-		return false;
 	}
 	
 	private void uploadBulletins() throws Exception 

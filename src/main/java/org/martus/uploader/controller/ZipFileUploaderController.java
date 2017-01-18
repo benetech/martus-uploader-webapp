@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import org.martus.common.Exceptions.ServerNotAvailableException;
 import org.martus.uploader.Logger;
 import org.martus.uploader.MartusUploaderWebappApplication;
 import org.martus.uploader.martus.BulletinUploader;
@@ -78,7 +79,20 @@ public class ZipFileUploaderController
             File serverResponseFile = createUniqueFileNameForUser();
             Logger.LogInfo(this.getClass(), "Zip extracted out to: " + newLocalZipFile.getAbsolutePath());
             Logger.LogInfo(this.getClass(), "Server Response file: " + serverResponseFile.getAbsolutePath());
-            uploadBulletins(extractedFolder, serverResponseFile);
+            try 
+            {
+            	uploadBulletins(extractedFolder, serverResponseFile);
+            }
+            catch (ServerNotAvailableException e)
+            {
+            	Logger.Log(getClass(), e);
+            	return "martusServerNotAvailableErrorPage";
+            }
+            catch (Exception e)
+            {
+            	Logger.Log(getClass(), e);
+            	return "martusServerNotAvailableErrorPage";
+            }
             
             redirectAttributes.addFlashAttribute("message", "You successfully uploaded " + uploadedZipFile.getOriginalFilename() + "!");
             redirectAttributes.addFlashAttribute("serverResultsFile", buildLinkFromFileName(serverResponseFile));
