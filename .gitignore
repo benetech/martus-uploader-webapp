@@ -1,5 +1,13 @@
 .gradle
 build/
+upload-dir/
+bin/
+Servers/
+.metadata/
+.project
+.settings/
+.factorypath
+.classpath
 
 # Ignore Gradle GUI config
 gradle-app.setting

@@ -1,0 +1,22 @@
+
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<h1>Your Records are being uploaded.</h1>
+	<h2>Next steps:</h2>
+	<h2>1. Copy the link posted on the bottom of this page</h2>
+	<h2>2. When you click the link, it will download a file</h2>
+	<h2>3. The file downlaoded is the results from the Martus Server</h2>
+	<h2>4. Save the file on your USB and import it into the Martus Desktop</h2>
+	
+	<div>
+	<h2>Copy the link below:</h2>
+		<ul>
+			<li>
+				<a th:href="${serverResultsFile}" th:text="${serverResultsFile}" />
+			</li>
+		</ul>
+	</div>
+	
+</body>
+</html>
