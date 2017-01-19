@@ -46,10 +46,10 @@ public class MartusUploaderWebappApplication
 	{
 		return (args) -> 
 		{
-//            storageService.deleteAll();
+			//storageService.deleteAll();
             storageService.init();
             rootLocation = storageService.getRootDir();
-            Logger.LogInfo(getClass(), "ROOOT LOCATION set to = " + rootLocation.getAbsolutePath());
+            Logger.LogInfo(getClass(), "Root folder set to = " + rootLocation.getAbsolutePath());
 		};
 	}
 	
@@ -85,6 +85,6 @@ public class MartusUploaderWebappApplication
 		return SERVER_IP_LCOAL;
 	}
 
-	private static final String SERVER_IP_SL1_DEV = "54.213.152.140";
+//	private static final String SERVER_IP_SL1_DEV = "54.213.152.140";
 	private static final String SERVER_IP_LCOAL = "127.0.0.1";
 }
