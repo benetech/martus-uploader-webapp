@@ -71,28 +71,8 @@ public class BulletinUploader
 			MartusLogger.logException(e);
 		}
 
-//		store = new ClientBulletinStore(getMartusSecurity());
-//		try
-//		{
-//			tempDir = DirectoryUtils.createTempDir();
-//			store.doAfterSigninInitialization(tempDir);
-//			store.createFieldSpecCacheFromDatabase();
-//		} 
-//		catch (Exception e) 
-//		{
-//			MartusLogger.log("unable to initialize store");
-//			MartusLogger.logException(e);
-//		}
-
-//		MartusLogger.log("tempDir is " + tempDir);
-//		zippedBulletins = new File[numBulletins];
-//		bulletinIds = new UniversalId[numBulletins];
-//			createZippedBulletins();
-//			loadBulletins();
-
-			if (verifyMartusServerViaMultipleAttempts())
-				uploadBulletins();
-//		DirectoryUtils.deleteEntireDirectoryTree(tempDir);
+		if (verifyMartusServerViaMultipleAttempts())
+			uploadBulletins();		
 	}
 
 	private boolean verifyMartusServerViaMultipleAttempts() throws Exception 
@@ -120,19 +100,6 @@ public class BulletinUploader
 		return false;
 	}
 	
-	//DO WE NEED THIS
-//	private void loadBulletins() throws Exception 
-//	{
-//		System.out.println("----------- number of bulletins to load= " + bulletinMbaFilesToUpload.size());
-//		for (File zipFile : bulletinMbaFilesToUpload) 
-//		{
-//			ZipFile zip = new ZipFile(zipFile);
-//			BulletinHeaderPacket bhp = BulletinHeaderPacket.loadFromZipFile(zip, getMartusSecurity());
-//			UniversalId uid = bhp.getUniversalId();
-//			System.out.println("----------------------bulletin uid = " + uid.getAccountId());
-//		}
-//	}
-//
 	private HashMap<String, Future<String>> sendBulletins() throws Exception 
 	{
 		MartusLogger.log("Start sending bulletins.  Count = " + bulletinMbaFilesToUpload.size());
