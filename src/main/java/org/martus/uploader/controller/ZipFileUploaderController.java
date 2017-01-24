@@ -85,13 +85,13 @@ public class ZipFileUploaderController
             }
             catch (ServerNotAvailableException e)
             {
-            	Logger.Log(getClass(), e);
+            	logException(e);
             	return "martusServerNotAvailableErrorPage";
             }
             catch (Exception e)
             {
-            	Logger.Log(getClass(), e);
-            	return "martusServerNotAvailableErrorPage";
+            	logException(e);
+            	return "exceptionDuringUploadErrorPage";
             }
             
             redirectAttributes.addFlashAttribute("message", "You successfully uploaded " + uploadedZipFile.getOriginalFilename() + "!");
@@ -136,5 +136,10 @@ public class ZipFileUploaderController
 		File martusServerResponseFile = File.createTempFile("MartusServerResponse", ".txt", rootLocation);
 		
 		return martusServerResponseFile;
+	}
+	
+	private void logException(Exception e) 
+	{
+		Logger.Log(getClass(), e);
 	}
 }
