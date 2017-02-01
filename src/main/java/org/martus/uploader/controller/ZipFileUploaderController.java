@@ -77,34 +77,7 @@ public class ZipFileUploaderController
 
     		if (uploadedZipFile.getOriginalFilename().endsWith(".zip"))
     		{
-    			File newLocalZipFile = storageService.store(uploadedZipFile);
-    			File extractedFolder = ZipUtility.extractFolder(newLocalZipFile);
-    			File serverResponseFile = createUniqueFileNameForUser();
-    			Logger.LogInfo(this.getClass(), "Zip extracted out to: " + newLocalZipFile.getAbsolutePath());
-    			Logger.LogInfo(this.getClass(), "Server Response file: " + serverResponseFile.getAbsolutePath());
-    			try 
-    			{
-    				uploadBulletins(extractedFolder, serverResponseFile);
-    			}
-    			catch (ServerNotAvailableException e)
-    			{
-    				logException(e);
-    				return "martusServerNotAvailableErrorPage";
-    			}
-    			catch (Exception e)
-    			{
-    				logException(e);
-    				return "exceptionDuringUploadErrorPage";
-    			}
-    			finally 
-    			{
-    				postUploadSafeCleanup(extractedFolder);
-    			}
-
-    			redirectAttributes.addFlashAttribute("message", "You successfully uploaded " + uploadedZipFile.getOriginalFilename() + "!");
-    			redirectAttributes.addFlashAttribute("serverResultsFile", buildLinkFromFileName(serverResponseFile));
-
-    			return "redirect:uploadedZipResultsPage";
+    			return handleZipFile(uploadedZipFile, redirectAttributes);
     		}
 
     		return "attempToUploadNonZipFileError";
@@ -114,6 +87,38 @@ public class ZipFileUploaderController
     		postUploadSafeCleanup(uploadedZipFile);
     	}
     }
+
+	private String handleZipFile(MultipartFile uploadedZipFile, RedirectAttributes redirectAttributes) throws Exception 
+	{
+		File newLocalZipFile = storageService.store(uploadedZipFile);
+		File extractedFolder = ZipUtility.extractFolder(newLocalZipFile);
+		File serverResponseFile = createUniqueFileNameForUser();
+		Logger.LogInfo(this.getClass(), "Zip extracted out to: " + newLocalZipFile.getAbsolutePath());
+		Logger.LogInfo(this.getClass(), "Server Response file: " + serverResponseFile.getAbsolutePath());
+		try 
+		{
+			uploadBulletins(extractedFolder, serverResponseFile);
+		}
+		catch (ServerNotAvailableException e)
+		{
+			logException(e);
+			return "martusServerNotAvailableErrorPage";
+		}
+		catch (Exception e)
+		{
+			logException(e);
+			return "exceptionDuringUploadErrorPage";
+		}
+		finally 
+		{
+			postUploadSafeCleanup(extractedFolder);
+		}
+
+		redirectAttributes.addFlashAttribute("message", "You successfully uploaded " + uploadedZipFile.getOriginalFilename() + "!");
+		redirectAttributes.addFlashAttribute("serverResultsFile", buildLinkFromFileName(serverResponseFile));
+
+		return "redirect:uploadedZipResultsPage";
+	}
 
 	private void postUploadSafeCleanup(MultipartFile uploadedZipFile) 
 	{
