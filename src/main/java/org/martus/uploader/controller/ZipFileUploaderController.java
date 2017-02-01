@@ -118,11 +118,6 @@ public class ZipFileUploaderController
 		}
 	}
 
-	private void postUploadSafeCleanup(MultipartFile uploadedZipFile) 
-	{
-		
-	}
-
 	private void postUploadSafeCleanup(File extractedFolder) 
 	{
 		try 
