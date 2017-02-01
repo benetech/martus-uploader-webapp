@@ -51,9 +51,6 @@ public class BulletinUploader
 		{
 			ClientPortOverride.useInsecurePorts = true;
 		}
-		
-		//FIXME does this need to happen
-		//Martus.addThirdPartyJarsToClasspath();
 	}
 
 	public void startLoading() throws Exception
