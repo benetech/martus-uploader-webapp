@@ -90,14 +90,19 @@ public class ZipFileUploaderController
 
 	private String handleZipFile(MultipartFile uploadedZipFile, RedirectAttributes redirectAttributes) throws Exception 
 	{
-		File newLocalZipFile = storageService.store(uploadedZipFile);
-		File extractedFolder = ZipUtility.extractFolder(newLocalZipFile);
-		File serverResponseFile = createUniqueFileNameForUser();
-		Logger.LogInfo(this.getClass(), "Zip extracted out to: " + newLocalZipFile.getAbsolutePath());
-		Logger.LogInfo(this.getClass(), "Server Response file: " + serverResponseFile.getAbsolutePath());
+		File extractedFolder = null;
 		try 
 		{
+			File newLocalZipFile = storageService.store(uploadedZipFile);
+			extractedFolder = ZipUtility.extractFolder(newLocalZipFile);
+			File serverResponseFile = createUniqueFileNameForUser();
+			Logger.LogInfo(this.getClass(), "Zip extracted out to: " + newLocalZipFile.getAbsolutePath());
+			Logger.LogInfo(this.getClass(), "Server Response file: " + serverResponseFile.getAbsolutePath());
 			uploadBulletins(extractedFolder, serverResponseFile);
+			redirectAttributes.addFlashAttribute("message", "You successfully uploaded " + uploadedZipFile.getOriginalFilename() + "!");
+			redirectAttributes.addFlashAttribute("serverResultsFile", buildLinkFromFileName(serverResponseFile));
+
+			return "redirect:uploadedZipResultsPage";
 		}
 		catch (ServerNotAvailableException e)
 		{
@@ -111,13 +116,9 @@ public class ZipFileUploaderController
 		}
 		finally 
 		{
-			postUploadSafeCleanup(extractedFolder);
+			if (extractedFolder != null)
+				postUploadSafeCleanup(extractedFolder);
 		}
-
-		redirectAttributes.addFlashAttribute("message", "You successfully uploaded " + uploadedZipFile.getOriginalFilename() + "!");
-		redirectAttributes.addFlashAttribute("serverResultsFile", buildLinkFromFileName(serverResponseFile));
-
-		return "redirect:uploadedZipResultsPage";
 	}
 
 	private void postUploadSafeCleanup(MultipartFile uploadedZipFile) 
