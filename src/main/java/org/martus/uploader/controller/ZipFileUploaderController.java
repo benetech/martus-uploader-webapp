@@ -68,32 +68,26 @@ public class ZipFileUploaderController
     @PostMapping("/")
     public String handleFileUpload(@RequestParam("file") MultipartFile uploadedZipFile, RedirectAttributes redirectAttributes) throws Exception 
     {
-    	try
+    	if (uploadedZipFile == null || uploadedZipFile.isEmpty())
     	{
-    		if (uploadedZipFile == null || uploadedZipFile.isEmpty())
-    		{
-    			return "fileNotChosenPage";
-    		}
-
-    		if (uploadedZipFile.getOriginalFilename().endsWith(".zip"))
-    		{
-    			return handleZipFile(uploadedZipFile, redirectAttributes);
-    		}
-
-    		return "attempToUploadNonZipFileError";
+    		return "fileNotChosenPage";
     	}
-    	finally 
+
+    	if (uploadedZipFile.getOriginalFilename().endsWith(".zip"))
     	{
-    		postUploadSafeCleanup(uploadedZipFile);
+    		return handleZipFile(uploadedZipFile, redirectAttributes);
     	}
+
+    	return "attempToUploadNonZipFileError";
     }
 
 	private String handleZipFile(MultipartFile uploadedZipFile, RedirectAttributes redirectAttributes) throws Exception 
 	{
 		File extractedFolder = null;
+		File newLocalZipFile = null;
 		try 
 		{
-			File newLocalZipFile = storageService.store(uploadedZipFile);
+			newLocalZipFile = storageService.store(uploadedZipFile);
 			extractedFolder = ZipUtility.extractFolder(newLocalZipFile);
 			File serverResponseFile = createUniqueFileNameForUser();
 			Logger.LogInfo(this.getClass(), "Zip extracted out to: " + newLocalZipFile.getAbsolutePath());
@@ -118,6 +112,9 @@ public class ZipFileUploaderController
 		{
 			if (extractedFolder != null)
 				postUploadSafeCleanup(extractedFolder);
+			
+			if (newLocalZipFile != null)
+				newLocalZipFile.delete();
 		}
 	}
 
