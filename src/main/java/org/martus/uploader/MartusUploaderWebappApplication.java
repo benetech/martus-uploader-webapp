@@ -25,14 +25,14 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 
 	public static void main(String[] args) 
 	{
-		System.out.println("Running Martus uploader application via jar");
+		System.out.println("Running Martus uploader application via Jar");
 		SpringApplication.run(MartusUploaderWebappApplication.class, args);
 		init();
 	}
 	
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder applicationBuilder) {
-    	System.out.println("Running Martus uploader application via war");
+    	System.out.println("Running Martus uploader application via War");
     	init();
         return applicationBuilder.sources(MartusUploaderWebappApplication.class);
     }
@@ -43,7 +43,6 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
         try {
             store.doAfterSigninInitialization(getRootLocation());
         } catch (Exception e) {
-        	e.printStackTrace();
         	System.out.println("Uploader root location = " + getRootLocation());
             Logger.Log(MartusUploaderWebappApplication.class, new Exception("Unable to initialize bulletin store"));
         }
