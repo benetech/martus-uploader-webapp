@@ -39,10 +39,12 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 	
 	private static void init() 
 	{
-		store = new ClientBulletinStore(martusCrypto);
+		store = new ClientBulletinStore(getMartusSecurity());
         try {
             store.doAfterSigninInitialization(getRootLocation());
         } catch (Exception e) {
+        	e.printStackTrace();
+        	System.out.println("Uploader root location = " + getRootLocation());
             Logger.Log(MartusUploaderWebappApplication.class, new Exception("Unable to initialize bulletin store"));
         }
 
