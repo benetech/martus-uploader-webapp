@@ -25,12 +25,14 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 
 	public static void main(String[] args) 
 	{
+		System.out.println("Running Martus uploader application via jar");
 		SpringApplication.run(MartusUploaderWebappApplication.class, args);
 		init();
 	}
 	
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder applicationBuilder) {
+    	System.out.println("Running Martus uploader application via war");
     	init();
         return applicationBuilder.sources(MartusUploaderWebappApplication.class);
     }
