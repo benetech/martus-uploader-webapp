@@ -54,6 +54,7 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 	@Bean
 	public CommandLineRunner init(FileSystemStorageService storageService) 
 	{
+		Logger.LogDebug("File storage initialize started");
 		return (args) -> 
 		{
 			//storageService.deleteAll();

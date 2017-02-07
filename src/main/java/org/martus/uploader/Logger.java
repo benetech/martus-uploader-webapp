@@ -17,6 +17,11 @@ public class Logger
 		Log(classToUse, new Exception(errorMessage));
 	}
 	
+	public static final void LogDebug(String message)
+	{
+		System.out.println("MartusUploader debug output: " + message);
+	}
+	
 	public static final void LogInfo(Class<?> classToUse, String infoMessage)
 	{
 		LoggerFactory.getLogger(classToUse).info(infoMessage);
