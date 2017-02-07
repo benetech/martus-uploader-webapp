@@ -23,15 +23,16 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 
 	public static void main(String[] args) 
 	{
-		System.out.println("Running Martus uploader application via Jar");
+		Logger.LogDebug("Running Martus uploader application via Jar");
 		SpringApplication.run(MartusUploaderWebappApplication.class, args);
 //		init();
 	}
 	
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder applicationBuilder) {
-    	System.out.println("Running Martus uploader application via War 2");
+    	Logger.LogDebug("Running Martus uploader application via War 2");
         SpringApplicationBuilder sources = applicationBuilder.sources(MartusUploaderWebappApplication.class);
+        Logger.LogDebug("Uploader root location = " + getRootLocation());
 //        init();
 		return sources;
     }
