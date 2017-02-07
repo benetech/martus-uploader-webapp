@@ -19,32 +19,33 @@ import org.springframework.context.annotation.Bean;
 @EnableConfigurationProperties(StorageProperties.class)
 public class MartusUploaderWebappApplication extends SpringBootServletInitializer
 {
-	private static MartusSecurity martusCrypto;
-	private static ClientBulletinStore store;
+//	private static MartusSecurity martusCrypto;
+//	private static ClientBulletinStore store;
 	private static File rootLocation;
 
 	public static void main(String[] args) 
 	{
 		System.out.println("Running Martus uploader application via Jar");
 		SpringApplication.run(MartusUploaderWebappApplication.class, args);
-		init();
+//		init();
 	}
 	
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder applicationBuilder) {
     	System.out.println("Running Martus uploader application via War");
-    	init();
-        return applicationBuilder.sources(MartusUploaderWebappApplication.class);
+        SpringApplicationBuilder sources = applicationBuilder.sources(MartusUploaderWebappApplication.class);
+//        init();
+		return sources;
     }
 	
 	private static void init() 
 	{
-		store = new ClientBulletinStore(getMartusSecurity());
+//		store = new ClientBulletinStore(getMartusSecurity());
         try {
-            store.doAfterSigninInitialization(getRootLocation());
+//            store.doAfterSigninInitialization(getRootLocation());
         } catch (Exception e) {
-        	System.out.println("Uploader root location = " + getRootLocation());
-            Logger.Log(MartusUploaderWebappApplication.class, new Exception("Unable to initialize bulletin store"));
+//        	System.out.println("Uploader root location = " + getRootLocation());
+//            Logger.Log(MartusUploaderWebappApplication.class, new Exception("Unable to initialize bulletin store"));
         }
 
         //FIXME this should/might need to be changed when going live
@@ -69,27 +70,27 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 		return rootLocation;
 	}
 	
-	public static MartusSecurity getMartusSecurity() 
-	{
-		if (martusCrypto == null) 
-		{
-			createMartusSecurity();
-		}
-		
-		return martusCrypto;
-	}
+//	public static MartusSecurity getMartusSecurity() 
+//	{
+//		if (martusCrypto == null) 
+//		{
+//			createMartusSecurity();
+//		}
+//		
+//		return martusCrypto;
+//	}
 
-	private static void createMartusSecurity() 
-	{
-		try 
-		{
-			martusCrypto = new MartusSecurity();
-		} 
-		catch (Exception e) 
-		{
-			Logger.Log(MartusUploaderWebappApplication.class, e);
-		}
-	}
+//	private static void createMartusSecurity() 
+//	{
+//		try 
+//		{
+//			martusCrypto = new MartusSecurity();
+//		} 
+//		catch (Exception e) 
+//		{
+//			Logger.Log(MartusUploaderWebappApplication.class, e);
+//		}
+//	}
 	
 	public static String getServerIp()
 	{
