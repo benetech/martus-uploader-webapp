@@ -2,9 +2,7 @@ package org.martus.uploader;
 
 import java.io.File;
 
-import org.martus.client.bulletinstore.ClientBulletinStore;
 import org.martus.clientside.ClientPortOverride;
-import org.martus.common.crypto.MartusSecurity;
 import org.martus.uploader.storage.FileSystemStorageService;
 import org.martus.uploader.storage.StorageProperties;
 import org.springframework.boot.CommandLineRunner;
@@ -32,7 +30,7 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 	
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder applicationBuilder) {
-    	System.out.println("Running Martus uploader application via War");
+    	System.out.println("Running Martus uploader application via War 2");
         SpringApplicationBuilder sources = applicationBuilder.sources(MartusUploaderWebappApplication.class);
 //        init();
 		return sources;
