@@ -5,6 +5,7 @@ import java.io.File;
 import org.martus.clientside.ClientPortOverride;
 import org.martus.uploader.storage.FileSystemStorageService;
 import org.martus.uploader.storage.StorageProperties;
+import org.martus.uploader.storage.StorageService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -27,16 +28,14 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 	{
 		Logger.LogDebug("Running Martus uploader application via Jar");
 		SpringApplication.run(MartusUploaderWebappApplication.class, args);
-//		init();
 	}
 	
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder applicationBuilder) {
-    	Logger.LogDebug("Running Martus uploader application via War 3");
-        SpringApplicationBuilder sources = applicationBuilder.sources(MartusUploaderWebappApplication.class);
+    	Logger.LogDebug("Running Martus uploader application via War 4");
         Logger.LogDebug("Uploader root location = " + getRootLocation());
-//        init();
-		return sources;
+
+        return applicationBuilder.sources(MartusUploaderWebappApplication.class);
     }
 	
 	private static void init() 
@@ -54,14 +53,15 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 	}
 
 	@Bean
-	public CommandLineRunner init(FileSystemStorageService storageService) 
+	public CommandLineRunner init(StorageService storageService) 
 	{
 		Logger.LogDebug("File storage initialize started");
 		return (args) -> 
 		{
 			//storageService.deleteAll();
             storageService.init();
-            rootLocation = storageService.getRootDir();
+//            storageService.
+//            rootLocation = storageService.getRootDir();
             Logger.LogInfo(getClass(), "Root folder set to = " + rootLocation.getAbsolutePath());
 		};
 	}
