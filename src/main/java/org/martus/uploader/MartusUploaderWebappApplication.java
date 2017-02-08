@@ -3,6 +3,7 @@ package org.martus.uploader;
 import java.io.File;
 
 import org.martus.clientside.ClientPortOverride;
+import org.martus.uploader.storage.FileSystemStorageService;
 import org.martus.uploader.storage.StorageProperties;
 import org.martus.uploader.storage.StorageService;
 import org.springframework.boot.CommandLineRunner;
@@ -59,8 +60,8 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 		{
 			//storageService.deleteAll();
             storageService.init();
-//            rootLocation = storageService.getRootDir();
-//            Logger.LogInfo(getClass(), "Root folder set to = " + rootLocation.getAbsolutePath());
+            rootLocation = ((FileSystemStorageService)storageService).getRootDir();
+            Logger.LogInfo(getClass(), "Root folder set to = " + rootLocation.getAbsolutePath());
 		};
 	}
 	
