@@ -20,11 +20,14 @@ import java.util.stream.Stream;
 public class FileSystemStorageService implements StorageService 
 {
     private final Path rootLocation;
+	private File tempDir;
 
     @Autowired
-    public FileSystemStorageService(StorageProperties properties) 
+    public FileSystemStorageService(StorageProperties properties) throws Exception 
     {
-        this.rootLocation = Paths.get(properties.getLocationName());
+    	tempDir = File.createTempFile("martusUploadTemp", "").getParentFile();
+//        this.rootLocation = Paths.get(properties.getLocationName());
+    	rootLocation = tempDir.toPath();
         System.out.println("File system storage service constructor called.  rootLocation set to: " + rootLocation.toAbsolutePath());
     }
 
