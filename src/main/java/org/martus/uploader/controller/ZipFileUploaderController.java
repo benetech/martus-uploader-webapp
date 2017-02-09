@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,10 +40,10 @@ public class ZipFileUploaderController
 //        this.storageService = storageService;
 //    }
 
-    @GetMapping("/")
-    public String listUploadedFiles(Model model) throws IOException 
-    {
-    	System.out.println("the method listUploadedFiles CALLED");
+//    @GetMapping("/")
+//    public String listUploadedFiles(Model model) throws IOException 
+//    {
+//    	System.out.println("the method listUploadedFiles CALLED");
 //        model.addAttribute("files", storageService
 //                .loadAll()
 //                .map(path ->
@@ -52,9 +53,14 @@ public class ZipFileUploaderController
 //                .collect(Collectors.toList()));
 //
 //        System.out.println("returning INDEX");
-        return "index";
-    }
+//        return "index";
+//    }
 
+	@RequestMapping("/")
+    public String greeting() {
+        return "helloWorldTest";
+    }
+	
 //    @GetMapping("/files/{filename:.+}")
 //    @ResponseBody
 //    public ResponseEntity<Resource> serveFile(@PathVariable String filename) 

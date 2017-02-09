@@ -32,7 +32,7 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 	
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder applicationBuilder) {
-    	Logger.LogDebug("Running Martus uploader application via War 6");
+    	Logger.LogDebug("Running Martus uploader application via War 7");
 //        Logger.LogDebug("Uploader root location = " + getRootLocation());
 
         SpringApplicationBuilder sources = applicationBuilder.sources(MartusUploaderWebappApplication.class);
@@ -41,19 +41,19 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 		return sources;
     }
 	
-	private static void init() 
-	{
+//	private static void init() 
+//	{
 //		store = new ClientBulletinStore(getMartusSecurity());
-        try {
+//        try {
 //            store.doAfterSigninInitialization(getRootLocation());
-        } catch (Exception e) {
+//        } catch (Exception e) {
 //        	System.out.println("Uploader root location = " + getRootLocation());
 //            Logger.Log(MartusUploaderWebappApplication.class, new Exception("Unable to initialize bulletin store"));
-        }
+//        }
 
         //FIXME this should/might need to be changed when going live
-        ClientPortOverride.useInsecurePorts = true;
-	}
+//        ClientPortOverride.useInsecurePorts = true;
+//	}
 
 //	@Bean
 //	public CommandLineRunner init(StorageService storageService) 
@@ -95,11 +95,11 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 //		}
 //	}
 	
-	public static String getServerIp()
-	{
-		return SERVER_IP_LCOAL;
-	}
-
+//	public static String getServerIp()
+//	{
+//		return SERVER_IP_LCOAL;
+//	}
+//
 //	private static final String SERVER_IP_SL1_DEV = "54.213.152.140";
-	private static final String SERVER_IP_LCOAL = "127.0.0.1";
+//	private static final String SERVER_IP_LCOAL = "127.0.0.1";
 }
