@@ -16,7 +16,7 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@EnableAutoConfiguration
+//@EnableAutoConfiguration
 //@EnableConfigurationProperties(StorageProperties.class)
 public class MartusUploaderWebappApplication extends SpringBootServletInitializer
 {
@@ -24,15 +24,15 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 //	private static ClientBulletinStore store;
 //	private static File rootLocation;
 
-	public static void main(String[] args) 
-	{
-		Logger.LogDebug("Running Martus uploader application via Jar");
-		SpringApplication.run(MartusUploaderWebappApplication.class, args);
-	}
+//	public static void main(String[] args) 
+//	{
+//		Logger.LogDebug("Running Martus uploader application via Jar");
+//		SpringApplication.run(MartusUploaderWebappApplication.class, args);
+//	}
 	
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder applicationBuilder) {
-    	Logger.LogDebug("Running Martus uploader application via War 5");
+    	Logger.LogDebug("Running Martus uploader application via War 6");
 //        Logger.LogDebug("Uploader root location = " + getRootLocation());
 
         SpringApplicationBuilder sources = applicationBuilder.sources(MartusUploaderWebappApplication.class);
