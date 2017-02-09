@@ -24,8 +24,8 @@ public class FileSystemStorageService implements StorageService
     @Autowired
     public FileSystemStorageService(StorageProperties properties) 
     {
-    	System.out.println("File system storage service constructor called");
         this.rootLocation = Paths.get(properties.getLocationName());
+        System.out.println("File system storage service constructor called.  rootLocation set to: " + rootLocation.toAbsolutePath());
     }
 
     @Override
@@ -114,6 +114,7 @@ public class FileSystemStorageService implements StorageService
     {
         try 
         {
+        	System.out.println("Is rootLocation readonly?" + rootLocation.getFileSystem().isReadOnly());
         	if (!Files.exists(rootLocation))
         	{
         		Files.createDirectory(rootLocation);
