@@ -42,6 +42,7 @@ public class ZipFileUploaderController
     @GetMapping("/")
     public String listUploadedFiles(Model model) throws IOException 
     {
+    	System.out.println("the method listUploadedFiles CALLED");
         model.addAttribute("files", storageService
                 .loadAll()
                 .map(path ->
@@ -50,6 +51,7 @@ public class ZipFileUploaderController
                             .build().toString())
                 .collect(Collectors.toList()));
 
+        System.out.println("returning INDEX");
         return "index";
     }
 
@@ -57,6 +59,7 @@ public class ZipFileUploaderController
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) 
     {
+    	System.out.println("the method serveFile CALLED");
         Resource file = storageService.loadAsResource(filename);
         
         return ResponseEntity
@@ -68,6 +71,7 @@ public class ZipFileUploaderController
     @PostMapping("/")
     public String handleFileUpload(@RequestParam("file") MultipartFile uploadedZipFile, RedirectAttributes redirectAttributes) throws Exception 
     {
+    	System.out.println("the method handleFileUpload CALLED");
     	if (uploadedZipFile == null || uploadedZipFile.isEmpty())
     	{
     		return "fileNotChosenPage";
@@ -140,6 +144,7 @@ public class ZipFileUploaderController
     @GetMapping("/uploadedZipResultsPage")
     public String uploadedZipResultsPage(Model model) throws IOException 
     {
+    	System.out.println("the method uploadedZipResultsPage CALLED");
         return "/uploadedZipResultsPage";
     }
 
