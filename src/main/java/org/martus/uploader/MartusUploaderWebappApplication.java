@@ -17,12 +17,12 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableAutoConfiguration
-@EnableConfigurationProperties(StorageProperties.class)
+//@EnableConfigurationProperties(StorageProperties.class)
 public class MartusUploaderWebappApplication extends SpringBootServletInitializer
 {
 //	private static MartusSecurity martusCrypto;
 //	private static ClientBulletinStore store;
-	private static File rootLocation;
+//	private static File rootLocation;
 
 	public static void main(String[] args) 
 	{
@@ -33,7 +33,7 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder applicationBuilder) {
     	Logger.LogDebug("Running Martus uploader application via War 5");
-        Logger.LogDebug("Uploader root location = " + getRootLocation());
+//        Logger.LogDebug("Uploader root location = " + getRootLocation());
 
         SpringApplicationBuilder sources = applicationBuilder.sources(MartusUploaderWebappApplication.class);
         Logger.LogDebug("Running Martus uploader application via War AFTER");
@@ -55,23 +55,23 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
         ClientPortOverride.useInsecurePorts = true;
 	}
 
-	@Bean
-	public CommandLineRunner init(StorageService storageService) 
-	{
-		Logger.LogDebug("File storage initialize started");
-		return (args) -> 
-		{
-			//storageService.deleteAll();
-            storageService.init();
-            rootLocation = ((FileSystemStorageService)storageService).getRootDir();
-            Logger.LogInfo(getClass(), "Root folder set to = " + rootLocation.getAbsolutePath());
-		};
-	}
+//	@Bean
+//	public CommandLineRunner init(StorageService storageService) 
+//	{
+//		Logger.LogDebug("File storage initialize started");
+//		return (args) -> 
+//		{
+//			//storageService.deleteAll();
+//            storageService.init();
+//            rootLocation = ((FileSystemStorageService)storageService).getRootDir();
+//            Logger.LogInfo(getClass(), "Root folder set to = " + rootLocation.getAbsolutePath());
+//		};
+//	}
 	
-	public static File getRootLocation() 
-	{
-		return rootLocation;
-	}
+//	public static File getRootLocation() 
+//	{
+//		return rootLocation;
+//	}
 	
 //	public static MartusSecurity getMartusSecurity() 
 //	{

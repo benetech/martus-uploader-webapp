@@ -16,13 +16,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-@Service
+//@Service
 public class FileSystemStorageService implements StorageService 
 {
     private final Path rootLocation;
 	private File tempDir;
 
-    @Autowired
+//    @Autowired
     public FileSystemStorageService(StorageProperties properties) throws Exception 
     {
     	tempDir = File.createTempFile("martusUploadTemp", "").getParentFile();
