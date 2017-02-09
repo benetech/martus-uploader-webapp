@@ -32,10 +32,13 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 	
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder applicationBuilder) {
-    	Logger.LogDebug("Running Martus uploader application via War 4");
+    	Logger.LogDebug("Running Martus uploader application via War 5");
         Logger.LogDebug("Uploader root location = " + getRootLocation());
 
-        return applicationBuilder.sources(MartusUploaderWebappApplication.class);
+        SpringApplicationBuilder sources = applicationBuilder.sources(MartusUploaderWebappApplication.class);
+        Logger.LogDebug("Running Martus uploader application via War AFTER");
+        
+		return sources;
     }
 	
 	private static void init() 
