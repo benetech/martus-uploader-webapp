@@ -58,9 +58,10 @@ public class ZipFileUploaderController
 //    }
 
 	@RequestMapping("/")
-    public String greeting() {
-        return "helloWorldTest";
+    public String index() {
+        return "Greetings from Spring Boot!";
     }
+
 	
 //    @GetMapping("/files/{filename:.+}")
 //    @ResponseBody
