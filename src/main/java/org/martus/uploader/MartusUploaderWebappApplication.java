@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Bean;
 public class MartusUploaderWebappApplication extends SpringBootServletInitializer
 {
 	private static MartusSecurity martusCrypto;
-	private static ClientBulletinStore store;
+//	private static ClientBulletinStore store;
 	private static File rootLocation;
 
 	public static void main(String[] args) 
@@ -33,18 +33,18 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder applicationBuilder) {
     	System.out.println("Running Martus uploader application via war 5");
-    	init();
+//    	init();
         return applicationBuilder.sources(MartusUploaderWebappApplication.class);
     }
 	
 	private static void init() 
 	{
-		store = new ClientBulletinStore(martusCrypto);
-        try {
-            store.doAfterSigninInitialization(getRootLocation());
-        } catch (Exception e) {
-            Logger.Log(MartusUploaderWebappApplication.class, new Exception("Unable to initialize bulletin store"));
-        }
+//		store = new ClientBulletinStore(martusCrypto);
+//        try {
+//            store.doAfterSigninInitialization(getRootLocation());
+//        } catch (Exception e) {
+//            Logger.Log(MartusUploaderWebappApplication.class, new Exception("Unable to initialize bulletin store"));
+//        }
 
         //FIXME this should/might need to be changed when going live
         ClientPortOverride.useInsecurePorts = true;
