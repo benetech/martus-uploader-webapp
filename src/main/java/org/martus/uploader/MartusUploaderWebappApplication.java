@@ -2,13 +2,13 @@ package org.martus.uploader;
 
 import java.io.File;
 
+import org.martus.client.bulletinstore.ClientBulletinStore;
 import org.martus.clientside.ClientPortOverride;
+import org.martus.common.crypto.MartusSecurity;
 import org.martus.uploader.storage.FileSystemStorageService;
 import org.martus.uploader.storage.StorageProperties;
-import org.martus.uploader.storage.StorageService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -16,62 +16,56 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-//@EnableAutoConfiguration
-//@EnableConfigurationProperties(StorageProperties.class)
+@EnableConfigurationProperties(StorageProperties.class)
 public class MartusUploaderWebappApplication extends SpringBootServletInitializer
 {
-//	private static MartusSecurity martusCrypto;
-//	private static ClientBulletinStore store;
-//	private static File rootLocation;
+	private static MartusSecurity martusCrypto;
+	private static ClientBulletinStore store;
+	private static File rootLocation;
 
-//	public static void main(String[] args) 
-//	{
-//		Logger.LogDebug("Running Martus uploader application via Jar");
-//		SpringApplication.run(MartusUploaderWebappApplication.class, args);
-//	}
+	public static void main(String[] args) 
+	{
+		System.out.println("Running Martus uploader application via main 5");
+		SpringApplication.run(MartusUploaderWebappApplication.class, args);
+		init();
+	}
 	
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder applicationBuilder) {
-    	Logger.LogDebug("Running Martus uploader application via War 7");
-//        Logger.LogDebug("Uploader root location = " + getRootLocation());
-
-        SpringApplicationBuilder sources = applicationBuilder.sources(MartusUploaderWebappApplication.class);
-        Logger.LogDebug("Running Martus uploader application via War AFTER");
-        
-		return sources;
+    	System.out.println("Running Martus uploader application via war 5");
+    	init();
+        return applicationBuilder.sources(MartusUploaderWebappApplication.class);
     }
 	
-//	private static void init() 
-//	{
-//		store = new ClientBulletinStore(getMartusSecurity());
-//        try {
-//            store.doAfterSigninInitialization(getRootLocation());
-//        } catch (Exception e) {
-//        	System.out.println("Uploader root location = " + getRootLocation());
-//            Logger.Log(MartusUploaderWebappApplication.class, new Exception("Unable to initialize bulletin store"));
-//        }
+	private static void init() 
+	{
+		store = new ClientBulletinStore(martusCrypto);
+        try {
+            store.doAfterSigninInitialization(getRootLocation());
+        } catch (Exception e) {
+            Logger.Log(MartusUploaderWebappApplication.class, new Exception("Unable to initialize bulletin store"));
+        }
 
         //FIXME this should/might need to be changed when going live
-//        ClientPortOverride.useInsecurePorts = true;
-//	}
+        ClientPortOverride.useInsecurePorts = true;
+	}
 
-//	@Bean
-//	public CommandLineRunner init(StorageService storageService) 
-//	{
-//		Logger.LogDebug("File storage initialize started");
-//		return (args) -> 
-//		{
-//			//storageService.deleteAll();
-//            storageService.init();
-//            rootLocation = ((FileSystemStorageService)storageService).getRootDir();
-//            Logger.LogInfo(getClass(), "Root folder set to = " + rootLocation.getAbsolutePath());
-//		};
-//	}
+	@Bean
+	public CommandLineRunner init(FileSystemStorageService storageService) 
+	{
+		return (args) -> 
+		{
+			//storageService.deleteAll();
+            storageService.init();
+            rootLocation = storageService.getRootDir();
+            Logger.LogInfo(getClass(), "Root folder set to = " + rootLocation.getAbsolutePath());
+		};
+	}
 	
-//	public static File getRootLocation() 
-//	{
-//		return rootLocation;
-//	}
+	public static File getRootLocation() 
+	{
+		return rootLocation;
+	}
 	
 //	public static MartusSecurity getMartusSecurity() 
 //	{
@@ -82,7 +76,7 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 //		
 //		return martusCrypto;
 //	}
-
+//
 //	private static void createMartusSecurity() 
 //	{
 //		try 
@@ -95,11 +89,11 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 //		}
 //	}
 	
-//	public static String getServerIp()
-//	{
-//		return SERVER_IP_LCOAL;
-//	}
-//
+	public static String getServerIp()
+	{
+		return SERVER_IP_LCOAL;
+	}
+
 //	private static final String SERVER_IP_SL1_DEV = "54.213.152.140";
-//	private static final String SERVER_IP_LCOAL = "127.0.0.1";
+	private static final String SERVER_IP_LCOAL = "127.0.0.1";
 }
