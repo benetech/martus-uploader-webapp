@@ -50,7 +50,7 @@ public class ZipFileUploaderController
                             .build().toString())
                 .collect(Collectors.toList()));
 
-        return "uploadForm";
+        return "index";
     }
 
     @GetMapping("/files/{filename:.+}")

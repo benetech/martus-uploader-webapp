@@ -32,7 +32,7 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 	
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder applicationBuilder) {
-    	System.out.println("Running Martus uploader application via war 5");
+    	System.out.println("Running Martus uploader application via war 7");
 //    	init();
         return applicationBuilder.sources(MartusUploaderWebappApplication.class);
     }
