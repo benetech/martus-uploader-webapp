@@ -1,5 +1,12 @@
 package org.martus.uploader.storage;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Stream;
+
 import org.martus.uploader.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -8,21 +15,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.stream.Stream;
-
-//@Service
+@Service
 public class FileSystemStorageService implements StorageService 
 {
     private final Path rootLocation;
 	private File tempDir;
 
-//    @Autowired
+    @Autowired
     public FileSystemStorageService(StorageProperties properties) throws Exception 
     {
     	tempDir = File.createTempFile("martusUploadTemp", "").getParentFile();

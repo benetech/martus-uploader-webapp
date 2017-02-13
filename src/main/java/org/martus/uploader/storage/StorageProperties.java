@@ -2,7 +2,7 @@ package org.martus.uploader.storage;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-//@ConfigurationProperties("storage")
+@ConfigurationProperties("storage")
 public class StorageProperties 
 {
     private String fileStorageLLocation = "upload-dir";
