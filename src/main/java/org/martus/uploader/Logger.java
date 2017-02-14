@@ -24,6 +24,6 @@ public class Logger
 	
 	public static final void LogInfo(Class<?> classToUse, String infoMessage)
 	{
-		LoggerFactory.getLogger(classToUse).info(infoMessage);
+		LogDebug(infoMessage);
 	}
 }
