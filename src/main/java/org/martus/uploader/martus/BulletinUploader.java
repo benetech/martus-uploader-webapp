@@ -59,6 +59,7 @@ public class BulletinUploader
 		{
 			Logger.LogInfo(getClass(), "About to construct a Martus Security object");
 			martusCrypto = new MartusSecurity();
+			Logger.LogInfo(getClass(), "MartusSecurity object instantiated.  Starting to create key pair");
 			getMartusSecurity().createKeyPair();
 			Logger.LogInfo(getClass(), "Uploader public key =" + getMartusSecurity().getPublicKeyString());
 			Logger.LogInfo(getClass(), "Uploader signature of public key =" + getMartusSecurity().getSignatureOfPublicKey());
