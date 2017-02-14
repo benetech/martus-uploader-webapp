@@ -49,7 +49,7 @@ public class BulletinUploader
 		//FIXME this needs to happen via command line args
 		if (true) 
 		{
-			ClientPortOverride.useInsecurePorts = true;
+			//ClientPortOverride.useInsecurePorts = true;
 		}
 	}
 
