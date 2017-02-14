@@ -17,7 +17,6 @@ import org.martus.clientside.ClientPortOverride;
 import org.martus.clientside.ClientSideNetworkGateway;
 import org.martus.clientside.ClientSideNetworkHandlerUsingXmlRpcWithUnverifiedServer;
 import org.martus.common.Exceptions.ServerNotAvailableException;
-import org.martus.common.MartusLogger;
 import org.martus.common.MartusUtilities;
 import org.martus.common.crypto.MartusCrypto;
 import org.martus.common.crypto.MartusSecurity;
@@ -27,6 +26,7 @@ import org.martus.common.network.NonSSLNetworkAPIWithHelpers;
 import org.martus.common.network.OrchidTransportWrapper;
 import org.martus.common.packet.BulletinHeaderPacket;
 import org.martus.common.packet.UniversalId;
+import org.martus.uploader.Logger;
 import org.martus.util.StreamableBase64;
 
 public class BulletinUploader 
@@ -47,25 +47,26 @@ public class BulletinUploader
 		this.serverResponseFile = serverResponseFile;
 		
 		//FIXME this needs to happen via command line args
-		if (true) 
-		{
+//		if (true) 
+//		{
 			//ClientPortOverride.useInsecurePorts = true;
-		}
+//		}
 	}
 
 	public void startLoading() throws Exception
 	{
 		try
 		{
+			Logger.LogInfo(getClass(), "About to construct a Martus Security object");
 			martusCrypto = new MartusSecurity();
 			getMartusSecurity().createKeyPair();
-			MartusLogger.log("Uploader public key =" + getMartusSecurity().getPublicKeyString());
-			MartusLogger.log("Uploader signature of public key =" + getMartusSecurity().getSignatureOfPublicKey());
+			Logger.LogInfo(getClass(), "Uploader public key =" + getMartusSecurity().getPublicKeyString());
+			Logger.LogInfo(getClass(), "Uploader signature of public key =" + getMartusSecurity().getSignatureOfPublicKey());
 		} 
 		catch (Exception e) 
 		{
-			MartusLogger.log("Unable to create crypto");
-			MartusLogger.logException(e);
+			Logger.LogInfo(getClass(), "Unable to create crypto");
+			Logger.Log(getClass(), e);
 		}
 
 		if (verifyMartusServerViaMultipleAttempts())
@@ -79,7 +80,7 @@ public class BulletinUploader
 		{
 			try 
 			{
-				MartusLogger.log("Verifying server.  Verify count = " + index);
+				Logger.LogInfo(getClass(), "Verifying server.  Verify count = " + index);
 				if (verifyServer())
 					return true;
 				
@@ -99,7 +100,7 @@ public class BulletinUploader
 	
 	private HashMap<String, Future<String>> sendBulletins() throws Exception 
 	{
-		MartusLogger.log("Start sending bulletins.  Count = " + bulletinMbaFilesToUpload.size());
+		Logger.LogInfo(getClass(), "Start sending bulletins.  Count = " + bulletinMbaFilesToUpload.size());
 		
 		ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 		HashMap<String, Future<String>> bulletinIdToFutures = new HashMap<>();
@@ -122,7 +123,7 @@ public class BulletinUploader
 			//do nothing - just waiting
 		}
 		
-		MartusLogger.log("Finished sending bulletins to " + getServerIp());
+		Logger.LogInfo(getClass(), "Finished sending bulletins to " + getServerIp());
 		
 		return bulletinIdToFutures;
 	}
@@ -142,23 +143,23 @@ public class BulletinUploader
 			NetworkResponse response = getGateway().getUploadRights(getMartusSecurity(), getMagicWord());
 			if (response.getResultCode().equals(NetworkInterfaceConstants.OK))
 			{
-				MartusLogger.log("Verified Server.  Server response was: " + response.getResultCode());
+				Logger.LogInfo(getClass(), "Verified Server.  Server response was: " + response.getResultCode());
 				return true;
 			}
 			
-			MartusLogger.log("Could not verify server. Server response was: " + response.getResultCode());
+			Logger.LogInfo(getClass(), "Could not verify server. Server response was: " + response.getResultCode());
 			return false;
 		}
 		catch (ServerNotAvailableException e)
 		{
-			MartusLogger.log("Martus Server is not available!");
-			MartusLogger.logException(e);
+			Logger.LogInfo(getClass(), "Martus Server is not available!");
+			Logger.Log(getClass(), e);
 			throw e;
 		}
 		catch (Exception e) 
 		{
-			MartusLogger.log("Couldn't verify server");
-			MartusLogger.logException(e);
+			Logger.LogInfo(getClass(), "Couldn't verify server");
+			Logger.Log(getClass(), e);
 			throw e;
 		}
 	}
@@ -177,11 +178,11 @@ public class BulletinUploader
 		try (FileWriter fileWriter = new FileWriter(serverResponseFile)) 
 		{
 			fileWriter.write(mapAsJson.toString());
-			MartusLogger.log("Json written here: " + serverResponseFile.getAbsolutePath());
+			Logger.LogInfo(getClass(), "Json written here: " + serverResponseFile.getAbsolutePath());
 		}
 		catch (Exception e)
 		{
-			MartusLogger.logException(e);
+			Logger.Log(getClass(), e);
 		}
 	}
 

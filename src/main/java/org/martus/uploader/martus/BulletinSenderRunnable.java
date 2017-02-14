@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.concurrent.Callable;
 
 import org.martus.clientside.ClientSideNetworkGateway;
-import org.martus.common.MartusLogger;
 import org.martus.common.crypto.MartusSecurity;
 import org.martus.common.packet.UniversalId;
+import org.martus.uploader.Logger;
 
 public class BulletinSenderRunnable implements Callable<String> 
 {
@@ -22,7 +22,7 @@ public class BulletinSenderRunnable implements Callable<String>
 	public String call() throws Exception
 	{
 		String uploadSingleBulletinResult = BulletinUploader.uploadBulletinZipFile(bulletinId, zippedFile, gateway, martusCrypto);
-		MartusLogger.log("Upload server result is = " + uploadSingleBulletinResult);
+		Logger.LogInfo(getClass(), "Upload server result is = " + uploadSingleBulletinResult);
 
 		postSentCleanup();
 

@@ -153,7 +153,9 @@ public class ZipFileUploaderController
 			bulletinMbaFiles.add(mbaFile);
 		}
 		
+		Logger.LogInfo(getClass(), "About to start uploader");
 		BulletinUploader uploader = new BulletinUploader(MartusUploaderWebappApplication.getServerIp(), "nomagic", bulletinMbaFiles, serverResponseFile);
+		Logger.LogInfo(getClass(), "Uploader object constructed");
 		uploader.startLoading();
 	}
 	
