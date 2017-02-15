@@ -7,16 +7,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.zip.ZipFile;
 
 import org.json.JSONObject;
-import org.martus.clientside.ClientPortOverride;
 import org.martus.clientside.ClientSideNetworkGateway;
 import org.martus.clientside.ClientSideNetworkHandlerUsingXmlRpcWithUnverifiedServer;
-import org.martus.common.Exceptions.ServerNotAvailableException;
 import org.martus.common.MartusUtilities;
 import org.martus.common.crypto.MartusCrypto;
 import org.martus.common.crypto.MartusSecurity;
@@ -44,13 +43,7 @@ public class BulletinUploader
 		this.serverIP = serverIP;
 		this.magicWord = magicWord;
 		this.bulletinMbaFilesToUpload = bulletinMbaFilesToUpload;
-		this.serverResponseFile = serverResponseFile;
-		
-		//FIXME this needs to happen via command line args
-//		if (true) 
-//		{
-			//ClientPortOverride.useInsecurePorts = true;
-//		}
+		this.serverResponseFile = serverResponseFile;		
 	}
 
 	public void startLoading() throws Exception
@@ -132,30 +125,24 @@ public class BulletinUploader
 	private boolean verifyServer() throws Exception
 	{
 		OrchidTransportWrapper transport = OrchidTransportWrapperWithActiveProperty.createWithoutPersistentStore();
+		System.out.println("Is tor on  ? " + transport.isTorEnabled());
 		
 		//IS THIS CORRECT, JUST SETTING IT TO TRUE?
 		transport.setIsOnline(true);
-		
+		transport.stopTor();
+		System.out.println("Is ready on? " + transport.isReady());
         NonSSLNetworkAPIWithHelpers server = new ClientSideNetworkHandlerUsingXmlRpcWithUnverifiedServer(getServerIp(), transport);
 		try
 		{
-			String result = server.getServerPublicKey(getMartusSecurity());
-			gateway = ClientSideNetworkGateway.buildGateway(getServerIp(), result, transport);
+			Vector serverInfo = server.getServerInformation();
+			String serverVersion = (String) serverInfo.get(0);
+			Logger.LogInfo(getClass(), "Connecting to martus server version: " + serverVersion);
+			String serverPublicKey = (String) serverInfo.get(1);
+			gateway = ClientSideNetworkGateway.buildGateway(getServerIp(), serverPublicKey, transport);
 			NetworkResponse response = getGateway().getUploadRights(getMartusSecurity(), getMagicWord());
-			if (response.getResultCode().equals(NetworkInterfaceConstants.OK))
-			{
-				Logger.LogInfo(getClass(), "Verified Server.  Server response was: " + response.getResultCode());
-				return true;
-			}
-			
-			Logger.LogInfo(getClass(), "Could not verify server. Server response was: " + response.getResultCode());
-			return false;
-		}
-		catch (ServerNotAvailableException e)
-		{
-			Logger.LogInfo(getClass(), "Martus Server is not available!");
-			Logger.Log(getClass(), e);
-			throw e;
+			Logger.LogInfo(getClass(), "Server response was: " + response.getResultCode());
+
+			return true;
 		}
 		catch (Exception e) 
 		{
@@ -164,7 +151,7 @@ public class BulletinUploader
 			throw e;
 		}
 	}
-	
+
 	private void uploadBulletins() throws Exception 
 	{
 		HashMap<String, Future<String>> bulletinIdToUploadStatusMap = sendBulletins();

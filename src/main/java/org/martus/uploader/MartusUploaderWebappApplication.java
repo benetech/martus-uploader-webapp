@@ -2,8 +2,7 @@ package org.martus.uploader;
 
 import java.io.File;
 
-import org.martus.client.bulletinstore.ClientBulletinStore;
-import org.martus.clientside.ClientPortOverride;
+import org.martus.client.swingui.Martus;
 import org.martus.common.crypto.MartusSecurity;
 import org.martus.uploader.storage.FileSystemStorageService;
 import org.martus.uploader.storage.StorageProperties;
@@ -19,35 +18,33 @@ import org.springframework.context.annotation.Bean;
 @EnableConfigurationProperties(StorageProperties.class)
 public class MartusUploaderWebappApplication extends SpringBootServletInitializer
 {
-	private static MartusSecurity martusCrypto;
-//	private static ClientBulletinStore store;
+	private static final String VERSION_CODE = "12";
 	private static File rootLocation;
 
 	public static void main(String[] args) 
 	{
-		System.out.println("Running Martus uploader application via main 5");
+		System.out.println("Running Martus uploader application via jar.  Version code: " + VERSION_CODE);
 		SpringApplication.run(MartusUploaderWebappApplication.class, args);
 		init();
 	}
 	
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder applicationBuilder) {
-    	System.out.println("Running Martus uploader application via war 11");
-//    	init();
+    	System.out.println("Running Martus uploader application via war. Version code: " + VERSION_CODE);
+    	init();
         return applicationBuilder.sources(MartusUploaderWebappApplication.class);
     }
 	
 	private static void init() 
 	{
-//		store = new ClientBulletinStore(martusCrypto);
-//        try {
-//            store.doAfterSigninInitialization(getRootLocation());
-//        } catch (Exception e) {
-//            Logger.Log(MartusUploaderWebappApplication.class, new Exception("Unable to initialize bulletin store"));
-//        }
-
-        //FIXME this should/might need to be changed when going live
-        ClientPortOverride.useInsecurePorts = true;
+		try 
+		{
+			Martus.addThirdPartyJarsToClasspath();
+		}
+		catch (Exception e) 
+		{
+			Logger.Log(MartusUploaderWebappApplication.class, e);
+		}
 	}
 
 	@Bean
@@ -67,33 +64,11 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 		return rootLocation;
 	}
 	
-//	public static MartusSecurity getMartusSecurity() 
-//	{
-//		if (martusCrypto == null) 
-//		{
-//			createMartusSecurity();
-//		}
-//		
-//		return martusCrypto;
-//	}
-//
-//	private static void createMartusSecurity() 
-//	{
-//		try 
-//		{
-//			martusCrypto = new MartusSecurity();
-//		} 
-//		catch (Exception e) 
-//		{
-//			Logger.Log(MartusUploaderWebappApplication.class, e);
-//		}
-//	}
-	
 	public static String getServerIp()
 	{
 		return SERVER_IP_SL1_DEV;
 	}
 
 	private static final String SERVER_IP_SL1_DEV = "54.213.152.140";
-	private static final String SERVER_IP_LCOAL = "127.0.0.1";
+	//private static final String SERVER_IP_LCOAL = "127.0.0.1";
 }
