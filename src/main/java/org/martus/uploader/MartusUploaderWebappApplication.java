@@ -13,22 +13,25 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
 //import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@SpringBootApplication
+//@SpringBootApplication
+@Configuration 
+@ComponentScan
 //@EnableConfigurationProperties(StorageProperties.class)
 public class MartusUploaderWebappApplication extends SpringBootServletInitializer
 {
-	private static final String VERSION_CODE = "15";
+	private static final String VERSION_CODE = "16";
 	private static File rootLocation;
 
-	public static void main(String[] args) 
-	{
-		System.out.println("Running Martus uploader application via jar.  Version code: " + VERSION_CODE);
-		SpringApplication.run(MartusUploaderWebappApplication.class, args);
-//		init();
-	}
+//	public static void main(String[] args) 
+//	{
+//		System.out.println("Running Martus uploader application via jar.  Version code: " + VERSION_CODE);
+//		SpringApplication.run(MartusUploaderWebappApplication.class, args);
+////		init();
+//	}
 	
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder applicationBuilder) {
