@@ -31,8 +31,8 @@ jar.enabled = false
 bootRepackage.enabled = false
 
 dependencies {
-//	compile files('libs/martus-client-unsigned-3584.jar')
-//	compile files('libs/bcprov-jdk15on-148.jar')
+	compile files('libs/martus-client-unsigned-3584.jar')
+	compile files('libs/bcprov-jdk15on-148.jar')
 	compile files('libs/bcpkix-jdk15on-148.jar')
 	compile files('libs/bc-jce-2012-11-08.jar')
 	compile files('libs/orchid-1.0.0.25f1ae1.jar')
