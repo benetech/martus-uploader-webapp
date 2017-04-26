@@ -36,7 +36,7 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 	
 	private static void init() 
 	{
-		ClientPortOverride.useInsecurePorts = true;
+//		ClientPortOverride.useInsecurePorts = true;
 //		try 
 //		{
 //			Martus.addThirdPartyJarsToClasspath();
