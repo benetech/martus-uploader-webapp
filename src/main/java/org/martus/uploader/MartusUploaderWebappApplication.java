@@ -36,15 +36,17 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 	
 	private static void init() 
 	{
-//		ClientPortOverride.useInsecurePorts = true;
-//		try 
-//		{
-//			Martus.addThirdPartyJarsToClasspath();
-//		}
-//		catch (Exception e) 
-//		{
-//			Logger.Log(MartusUploaderWebappApplication.class, e);
-//		}
+		System.out.println("Connecting to martus server IP " + getServerIp());
+		turnOnInsecurePortsForLocaluse();
+	}
+
+	private static void turnOnInsecurePortsForLocaluse() 
+	{
+		if (getServerIp().equals(SERVER_IP_LCOAL))
+		{
+			ClientPortOverride.useInsecurePorts = true;
+			System.out.println("WARNING: Using Insecure ports: (Should be turned on for local use only): " + ClientPortOverride.useInsecurePorts);
+		}
 	}
 
 	@Bean
@@ -66,9 +68,10 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 	
 	public static String getServerIp()
 	{
-		return SERVER_IP_SL1_DEV;
+		return SERVER_IP_SL1_IE;
 	}
-//
+
+	private static final String SERVER_IP_SL1_IE = "54.72.26.74";
 	private static final String SERVER_IP_SL1_DEV = "54.213.152.140";
-//	private static final String SERVER_IP_LCOAL = "127.0.0.1";
+	private static final String SERVER_IP_LCOAL = "127.0.0.1";
 }
