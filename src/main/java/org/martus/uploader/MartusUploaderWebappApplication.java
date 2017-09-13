@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Bean;
 @EnableConfigurationProperties(StorageProperties.class)
 public class MartusUploaderWebappApplication extends SpringBootServletInitializer
 {
-	private static final String VERSION_CODE = "19";
+	private static final String VERSION_CODE = "20";
 	private static File rootLocation;
 
 	public static void main(String[] args) 
