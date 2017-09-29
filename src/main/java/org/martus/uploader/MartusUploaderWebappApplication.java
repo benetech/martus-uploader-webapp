@@ -68,9 +68,10 @@ public class MartusUploaderWebappApplication extends SpringBootServletInitialize
 	
 	public static String getServerIp()
 	{
-		return SERVER_IP_SL1_DEV;
+		return SERVER_IP_SL1_IE;
 	}
 
+	private static final String SERVER_IP_SL1_BR = "54.207.51.132";
 	private static final String SERVER_IP_SL1_IE = "54.72.26.74";
 	private static final String SERVER_IP_SL1_DEV = "54.213.152.140";
 	private static final String SERVER_IP_LCOAL = "127.0.0.1";
